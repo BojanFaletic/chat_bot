@@ -5,13 +5,17 @@ import re
 import time
 import random
 
+
+# website used for finding words relationship
 URL = 'https://relatedwords.org/relatedto/'
 
 
-def get_common_words():
-    with open('top_1000_words.txt', 'r') as file:
+# get array of top english words
+def get_common_words(wordlist='top_1000_words.txt'):
+    with open(wordlist, 'r') as file:
         d = file.readlines()
     return [x.replace('\n', '') for x in d]
+
 
 # starts browser
 chrome_options = webdriver.ChromeOptions()
@@ -22,15 +26,14 @@ driver = webdriver.Chrome(options=chrome_options)
 em = Emotions()
 
 words = get_common_words()
-
 for k, word in enumerate(words):
     driver.get(URL+word)
-    # detection bypass
+    # detection bypass, pause for random time
     time.sleep(random.randrange(1, 100)/1e3)
 
+    # webpage scraping
     d = driver.page_source
     soup = BeautifulSoup(d)
-
     s = soup.find_all(class_='item')
 
     # parse webpage for emotion and prob

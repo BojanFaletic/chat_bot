@@ -13,6 +13,9 @@ intents = json.loads(open('intents.json').read())
 words = pickle.load(open('words.pkl','rb'))
 classes = pickle.load(open('classes.pkl','rb'))
 
+import tkinter
+from tkinter import *
+
 
 def clean_up_sentence(sentence):
     sentence_words = nltk.word_tokenize(sentence)
@@ -59,16 +62,14 @@ def getResponse(ints, intents_json):
 
 def chatbot_response(msg):
     ints = predict_class(msg, model)
+    print('ints:', ints)
+
+    # special states indicates command
     res = getResponse(ints, intents)
     return res
 
-
 #Creating GUI with tkinter
-import tkinter
-from tkinter import *
-
-
-def send():
+def send(_=None):
     msg = EntryBox.get("1.0",'end-1c').strip()
     EntryBox.delete("0.0",END)
 
@@ -105,7 +106,7 @@ SendButton = Button(base, font=("Verdana",12,'bold'), text="Send", width="12", h
 
 #Create the box to enter message
 EntryBox = Text(base, bd=0, bg="white",width="29", height="5", font="Arial", fg='black')
-#EntryBox.bind("<Return>", send)
+EntryBox.bind("<Return>", send)
 
 
 #Place all components on the screen

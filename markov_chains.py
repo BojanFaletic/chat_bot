@@ -1,14 +1,17 @@
 import numpy as np
 
+# markov chain implementation
 class Markov_chain:
     def __init__(self, transition_prob):
         self.transition_prob = transition_prob
         self.states = list(transition_prob.keys())
 
+    # return next state
     def next_state(self, current_state):
         return np.random.choice(self.states,
                                 p=[self.transition_prob[current_state][next_state] for next_state in self.states])
 
+    # generate sequence of n future states 
     def generate_states(self, current_state, no=10):
         future_states = []
         for _ in range(no):
