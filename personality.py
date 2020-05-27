@@ -1,6 +1,7 @@
-from markov_chains import Markov_chain
 import numpy as np
-
+from markov_chains import Markov_chain
+from emotions import Emotions
+from audio_interface import Audio
 
 class Personality:
     # markov chain for mood
@@ -39,8 +40,17 @@ class Personality:
         self.mood = Markov_chain(self.mood_tranzitions)
         self.emotion = Markov_chain(self.emotion_tranzitions)
 
+        # set state of agent
         self.current_mood = np.random.choice(['happy', 'netural', 'sad'])
         self.current_emotion = np.random.choice(['smile', 'netural', 'cry'])
+
+        # get meaningfull words
+        self.e = Emotions()
+        self.e.load_dictionary('emotions.json')
+        self.e.load_compact()
+
+        # load audio 
+        self.voice = Audio()
 
     # get current mood of agent
     def get_mood(self, insert_emotion=None, prob=None):
@@ -65,6 +75,21 @@ class Personality:
     def get_emotion(self):
         self.current_emotion = self.emotion.next_state(self.current_emotion)
         return self.current_emotion
+
+
+    # high level function
+    def word_to_mood(self, key_words):
+        if len(key_words) > 0:
+            for key in key_words:
+                for word in self.e.emotions2:
+                    if key in self.e.emotions2[word]:
+                        meaningfull_word = {word : self.e.emotions2[key][word]}
+                        return meaningfull_word
+
+#p = Personality()
+
+
+#print(p.word_to_mood(['happy2']))
 
 
 '''
