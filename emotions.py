@@ -53,7 +53,6 @@ common_emotions = {
     'name' : prob
   }
 
-'''
 
 em = Emotions()
 em.load_dictionary('emotions.json')
@@ -64,3 +63,5 @@ em.load_compact()
 
 print(em.emotions)
 print(em.emotions2['trust'])
+
+'''

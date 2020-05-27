@@ -83,8 +83,26 @@ class Personality:
             for key in key_words:
                 for word in self.e.emotions2:
                     if key in self.e.emotions2[word]:
-                        meaningfull_word = {word : self.e.emotions2[key][word]}
+                        meaningfull_word = {word : self.e.emotions2[word][key]}
                         return meaningfull_word
+
+    # speak with specific mood
+    def speak_with_mood(self,text):
+        mood = self.current_mood
+        if mood == 'happy':
+            talk_speed = 125
+            voice_volume = 0.8
+        elif mood == 'natural':
+            talk_speed = 100
+            voice_volume = 0.5
+        else:
+            talk_speed = 80
+            voice_volume = 0.4
+
+        self.voice.set_talk_speed(talk_speed)
+        self.voice.set_volume(voice_volume)
+        self.voice.speak(text)
+
 
 #p = Personality()
 
